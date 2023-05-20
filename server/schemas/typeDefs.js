@@ -33,16 +33,27 @@ const typeDefs = gql`
     date: String
   }
 
+  input UserProfileInput {
+    firstName: String
+    lastName: String
+    contactInfo: String
+    preferences: [String]
+  }
   type Query {
     users: [User]
+    user(userId: ID!): User
     schools: [School]
+    school(schoolId: ID!): School
     donations: [Donation]
+    donation(donationId: ID!): Donation
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!, preferences: String): User
+    updateUser(userId: ID!, input: UserProfileInput): User
     addSchool(name: String!, district: String!, needs: [String!]!, location: String): School
     addDonation(type: String!, donor: ID!, recipient: ID!): Donation
+    remove(donationId: ID!): Donation
   }
 `;
 
