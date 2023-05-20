@@ -1,25 +1,46 @@
+const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Recipe } = require('../models');
+const { User, School, Donation } = require('../models');
 const { signToken } = require('../utils/auth');
+const bcrypt = require('bcryptjs');
+
+const signToken = (user) => {
+  return jwt.sign(
+    {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+    },
+    process.env.SECRET_KEY, // Retrieve the secret key from the environment variable
+    {
+      expiresIn: '24h', // token will expire in 24 hours
+    }
+  );
+};
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('recipes');
+      return User.find().populate('donations');
     },
-    user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('recipes');
+    user: async (parent, { userId }) => {
+      return User.findOne({ _id: userId }).populate('donations');
     },
-    recipes: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Recipe.find(params).sort({ createdAt: -1 });
+    schools: async () => {
+      return School.find().sort({ createdAt: -1 });
     },
-    recipe: async (parent, { recipeId }) => {
-      return Recipe.findOne({ _id: recipeId });
+    school: async (parent, { schoolId }) => {
+      return School.findOne({ _id: schoolId });
+    },
+    donations: async () => {
+      return Donation.find().sort({ createdAt: -1 });
+    },
+    donation: async (parent, { donationId }) => {
+      return Donation.findOne({ _id: donationId });
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('recipes');
+        return User.findOne({ _id: context.user._id }).populate('donations');
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -27,7 +48,8 @@ const resolvers = {
 
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = await User.create({ username, email, password: hashedPassword });
       const token = signToken(user);
       return { token, user };
     },
@@ -38,7 +60,7 @@ const resolvers = {
         throw new AuthenticationError('No user found with this email address');
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPw = await bcrypt.compare(password, user.password);
 
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
@@ -48,35 +70,39 @@ const resolvers = {
 
       return { token, user };
     },
-    addRecipe: async (parent, { recipeText }, context) => {
+    addSchool: async (parent, args) => {
+      return School.create(args);
+    },
+    addDonation: async (parent, { type, donor, recipient }, context) => {
       if (context.user) {
-        const recipe = await Recipe.create({
-          recipeText,
-          recipeAuthor: context.user.username,
+        const donation = await Donation.create({
+          type,
+          donor,
+          recipient,
         });
 
         await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { recipes: recipe._id } }
+          { $addToSet: { donations: donation._id } }
         );
 
-        return recipe;
+        return donation;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    removeRecipe: async (parent, { recipeId }, context) => {
+    remove: async (parent, { donationId }, context) => {
       if (context.user) {
-        const recipe = await Recipe.findOneAndDelete({
-          _id: recipeId,
-          recipeAuthor: context.user.username,
+        const donation = await Donation.findOneAndDelete({
+          _id: donationId,
+          donor: context.user._id,
         });
 
         await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { recipes: recipe._id } }
+          { $pull: { donations: donation._id } }
         );
 
-        return recipe;
+        return donation;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -84,3 +110,4 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+

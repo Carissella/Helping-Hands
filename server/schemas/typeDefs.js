@@ -5,43 +5,42 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    password: String
-    recipes: [Recipe]!
+    preferences: String
   }
 
-  type Recipe {
+  type School {
     _id: ID
-    recipeText: String
-    recipeAuthor: String
-    createdAt: String
-    comments: [Comment]!
+    name: String
+    district: String
+    needs: String
+    location: String
   }
 
-  type Comment {
-    _id: ID
-    commentText: String
-    commentAuthor: String
-    createdAt: String
+  type Donation {
+    _id: ID!
+    type: String!
+    donor: User!
+    recipient: School!
+    status: String!
+    progress: Int
+    history: [History]
   }
 
-  type Auth {
-    token: ID!
-    user: User
+  type History {
+    status: String
+    date: String
   }
 
   type Query {
     users: [User]
-    user(username: String!): User
-    recipes(username: String): [Recipe]
-    recipe(recipeId: ID!): Recipe
-    me: User
+    schools: [School]
+    donations: [Donation]
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
-    addRecipe(recipeText: String!): Recipe
-    removeRecipe(recipeId: ID!): Recipe
+    addUser(username: String!, email: String!, password: String!, preferences: String): User
+    addSchool(name: String!, district: String!, needs: [String!]!, location: String): School
+    addDonation(type: String!, donor: ID!, recipient: ID!): Donation
   }
 `;
 
