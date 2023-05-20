@@ -48,6 +48,9 @@ const resolvers = {
   },
 
   Mutation: {
+    updateUser: async (parent, { userId, input }) => {
+      return User.findByIdAndUpdate(userId, input, { new: true });
+    },
     addUser: async (parent, { username, email, password }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await User.create({ username, email, password: hashedPassword });

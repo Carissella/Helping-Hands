@@ -17,14 +17,20 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 10,
   },
-  recipe: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Recipe',
-    },
-  ],
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  contactInfo: {
+    type: String,
+  },
+  
 });
 
 userSchema.pre('save', async function (next) {
