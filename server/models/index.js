@@ -1,5 +1,5 @@
-const Recipe = require('./Recipe');
 const User = require('./User');
+const School = require('./School');
+const Donation = require('./Donation');
 
-
-module.exports = { User, Recipe };
+module.exports = { User, School, Donation };
