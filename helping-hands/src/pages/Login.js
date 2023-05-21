@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../graphql/mutations';  // replace with the actual path
+
 
 const LOGIN_USER = gql`
   mutation LoginUser($email: String!, $password: String!) {
