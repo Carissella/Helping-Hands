@@ -79,19 +79,38 @@ const resolvers = {
     },
     addDonation: async (parent, { type, donor, recipient }, context) => {
       if (context.user) {
+         // Check if the user is authenticated
+        throw new AuthenticationError('You need to be logged in to make a donation');
+      }
+
+      try {
+        // Create the donation
         const donation = await Donation.create({
           type,
           donor,
           recipient,
+          status: 'Pending', // Set the initial status of the donation
+          progress: 0, // Set the initial progress of the donation
         });
 
+        // Update the corresponding school's needs
+        await School.findOneAndUpdate(
+          { _id: recipient },
+          { $addToSet: { needs: type } }
+        );
+
+      
+
+        // Update the user's donations
         await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { donations: donation._id } }
+          { _id: donor},
+          { $addToSet: { needs: type } }
         );
 
         return donation;
-      }
+      } catch (error) {
+        throw new Error('Failed to create donation');
+      };
       throw new AuthenticationError('You need to be logged in!');
     },
     remove: async (parent, { donationId }, context) => {
@@ -100,7 +119,7 @@ const resolvers = {
           _id: donationId,
           donor: context.user._id,
         });
-
+    
         await User.findOneAndUpdate(
           { _id: context.user._id },
           { $pull: { donations: donation._id } }
