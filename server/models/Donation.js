@@ -5,6 +5,10 @@ const donationSchema = new Schema({
     type: String,
     required: true
   },
+  status: {
+    type: String,
+    required: true
+  },
   donor: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -12,10 +16,6 @@ const donationSchema = new Schema({
   recipient: {
     type: Schema.Types.ObjectId,
     ref: 'School'
-  },
-  status: {
-    type: String,
-    required: true
   }
   // include any other fields you need for a donation
 });

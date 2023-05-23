@@ -7,12 +7,13 @@ const SchoolSchema = new Schema({
       unique: true,
       trim: true,
     },
-    ingredients: [
+    donations: [
       {
-        type: String,
-        trim: true,
-      },
+        type: Schema.Types.ObjectId,
+        ref: 'Donation'
+      }
     ],
+    
   });
 const School = model('School', SchoolSchema);
 
