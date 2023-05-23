@@ -1,7 +1,7 @@
 {
     "name": "helping-hands",
     "version": "1.0.0",
-    "description": "",
+    "description": "charity app",
     "main": "server/server.js",
     "scripts": {
         "start": "node server/server.js --ignore client",
