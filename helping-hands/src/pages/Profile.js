@@ -1,10 +1,10 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ME } from '../queries';
+import { GET_ME } from '../graphql/queries';
 
 function Profile() {
   // useQuery hook to get user profile
-  const { loading, errror, data } = useQuery(GET_ME);
+  const { loading, error, data } = useQuery(GET_ME);
 
   // ... handle loading, error and data states
   if (loading) {

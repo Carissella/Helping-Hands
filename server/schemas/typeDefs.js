@@ -7,15 +7,12 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    preferences: String
   }
 
   type School {
     _id: ID
     name: String
-    district: String
-    needs: String
-    location: String
+    donations: String
   }
 
   type Donation {
@@ -24,8 +21,6 @@ const typeDefs = gql`
     donor: User!
     recipient: School!
     status: String!
-    progress: Int
-    history: [History]
   }
 
   type History {
@@ -39,6 +34,7 @@ const typeDefs = gql`
     contactInfo: String
     preferences: [String]
   }
+  
   type Query {
     users: [User]
     user(userId: ID!): User

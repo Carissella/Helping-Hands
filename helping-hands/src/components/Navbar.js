@@ -1,15 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import App from "../App";
 
 const Navbar = () => {
+  const navLinks = [
+    {
+      path: "/",
+      label: "Home",
+    },
+    {
+      path: "/login",
+      label: "Login",
+    },
+    {
+      path: "/signup",
+      label: "Sign Up",
+    },
+    {
+      path: "/profile",
+      label: "Profile",
+    },
+    {
+      path: "/schools",
+      label: "Schools",
+    },
+  ];
+
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
-      <Link to="/profile">Profile</Link>
-      <Link to="/schools">Schools</Link>
-    </div>
+    <nav className='navbar'>
+      <ul>
+        {navLinks.map((navLinks) => (
+          <li key={navLinks.path}>
+            <Link 
+            to={navLinks.path} className="nav-links">
+              {navLinks.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
 

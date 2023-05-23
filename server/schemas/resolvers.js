@@ -1,29 +1,27 @@
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
+// require('dotenv').config();
+// const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 const { User, School, Donation } = require('../models');
-const { signToken } = require('../utils/auth');
-const bcrypt = require('bcryptjs');
+// const { signToken } = require('../utils/auth');
+// const bcrypt = require('bcryptjs');
 
-const signToken = (user) => {
-  return jwt.sign(
-    {
-      _id: user._id,
-      email: user.email,
-      username: user.username,
-    },
-    process.env.SECRET_KEY, // Retrieve the secret key from the environment variable
-    {
-      expiresIn: '24h', // token will expire in 24 hours
-    }
-  );
-};
+// const  = (user) => {
+//   return jwt.sign(
+//     {
+//       _id: user._id,
+//       email: user.email,
+//       username: user.username,
+//     },
+//     process.env.SECRET_KEY, // Retrieve the secret key from the environment variable
+//     {
+//       expiresIn: '24h', // token will expire in 24 hours
+//     }
+//   );
+// };
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find().populate('donations');
-    },
+    users: async () => { return User.find().populate('donations'); },
     user: async (parent, { userId }) => {
       return User.findOne({ _id: userId }).populate('donations');
     },
@@ -39,12 +37,12 @@ const resolvers = {
     donation: async (parent, { donationId }) => {
       return Donation.findOne({ _id: donationId });
     },
-    me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('donations');
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
+    // me: async (parent, args, context) => {
+    //   if (context.user) {
+    //     return User.findOne({ _id: context.user._id }).populate('donations');
+    //   }
+    //   throw new AuthenticationError('You need to be logged in!');
+    // },
   },
 
   Mutation: {
@@ -57,26 +55,26 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+    // login: async (parent, { email, password }) => {
+    //   const user = await User.findOne({ email });
 
-      if (!user) {
-        throw new AuthenticationError('No user found with this email address');
-      }
+    //   if (!user) {
+    //     throw new AuthenticationError('No user found with this email address');
+    //   }
 
-      const correctPw = await bcrypt.compare(password, user.password);
+    //   const correctPw = await bcrypt.compare(password, user.password);
 
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
-      }
+    //   if (!correctPw) {
+    //     throw new AuthenticationError('Incorrect credentials');
+    //   }
 
-      const token = signToken(user);
+    //   const token = signToken(user);
 
-      return { token, user };
-    },
-    addSchool: async (parent, args) => {
-      return School.create(args);
-    },
+    //   return { token, user };
+    // },
+    // addSchool: async (parent, args) => {
+    //   return School.create(args);
+    // },
     addDonation: async (parent, { type, donor, recipient }, context) => {
       if (context.user) {
          // Check if the user is authenticated

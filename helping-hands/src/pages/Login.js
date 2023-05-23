@@ -3,17 +3,17 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../graphql/mutations';  // replace with the actual path
 
 
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-      user {
-        id
-        email
-      }
-    }
-  }
-`;
+// const LOGIN_USER = gql`
+//   mutation LoginUser($email: String!, $password: String!) {
+//     loginUser(email: $email, password: $password) {
+//       token
+//       user {
+//         id
+//         email
+//       }
+//     }
+//   }
+// `;
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
