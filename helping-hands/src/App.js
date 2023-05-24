@@ -4,11 +4,11 @@ import { ApolloProvider } from '@apollo/client';
 import './App.css';
 import client from './Apollo';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Profile from './pages/Profile';
-import Schools from './pages/Schools.js';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import Signup from './components/pages/Signup';
+import Profile from './components/pages/Profile';
+import Schools from './components/pages/Schools.js';
 
 
 
@@ -18,13 +18,14 @@ function App() {
     <Router>
     <div claassName= "App">
           <Navbar />
-          <Login />
+       {/* <Login /> */}
+          
           <Routes>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/schools" component={Schools} />
+            <Route  path="/login" element={<Login/>} />
+            <Route path="/signup" element={<Signup/>} />
+            <Route  path="/profile" element={<Profile/>} />
+            <Route  path="/schools" element={<Schools/>} />
+            <Route  path="/" element={<Home/>} />
           </Routes>
         </div>
       </Router>
