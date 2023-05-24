@@ -2,7 +2,7 @@
 // const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 const { User, School, Donation } = require('../models');
-// const { signToken } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
 // const bcrypt = require('bcryptjs');
 
 // const  = (user) => {
@@ -46,35 +46,32 @@ const resolvers = {
   },
 
   Mutation: {
-    updateUser: async (parent, { userId, input }) => {
-      return User.findByIdAndUpdate(userId, input, { new: true });
-    },
     addUser: async (parent, { username, email, password }) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = await User.create({ username, email, password: hashedPassword });
       const token = signToken(user);
       return { token, user };
     },
-    // login: async (parent, { email, password }) => {
-    //   const user = await User.findOne({ email });
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
 
-    //   if (!user) {
-    //     throw new AuthenticationError('No user found with this email address');
-    //   }
+      if (!user) {
+        throw new AuthenticationError("No user with this email address");
+      }
 
-    //   const correctPw = await bcrypt.compare(password, user.password);
+      const correctPw = await user.isCorrectPassword(password);
 
-    //   if (!correctPw) {
-    //     throw new AuthenticationError('Incorrect credentials');
-    //   }
+      if (!correctPw) {
+        throw new AuthenticationError("Incorrect credentials");
+      }
 
-    //   const token = signToken(user);
+      const token = signToken(user);
 
-    //   return { token, user };
-    // },
-    // addSchool: async (parent, args) => {
-    //   return School.create(args);
-    // },
+      return { token, user };
+    },
+    addSchool: async (parent, args) => {
+      return School.create(args);
+    },
     addDonation: async (parent, { type, donor, recipient }, context) => {
       if (context.user) {
          // Check if the user is authenticated
@@ -111,7 +108,7 @@ const resolvers = {
       };
       throw new AuthenticationError('You need to be logged in!');
     },
-    remove: async (parent, { donationId }, context) => {
+    removeDonation: async (parent, { donationId }, context) => {
       if (context.user) {
         const donation = await Donation.findOneAndDelete({
           _id: donationId,
@@ -127,8 +124,16 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-  },
+  updateUser: async (parent, { username }) => {
+    return await User.findByIdAndUpdate(
+      context.User._id,
+      { username },
+      { new: true }
+    ).populate('updated Info')
+  } ,throw: new AuthenticationError('Not logged in')
+}
 };
+
 
 module.exports = resolvers;
 

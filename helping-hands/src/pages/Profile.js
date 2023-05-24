@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ME } from '../graphql/queries';
+import { GET_ME } from '../utils/queries';
 
 function Profile() {
   // useQuery hook to get user profile
