@@ -2,9 +2,9 @@
     "name": "helping-hands",
     "version": "1.0.0",
     "description": "charity app",
-    "main": "server/server.js",
+    "main": "server/index.js",
     "scripts": {
-        "start": "node server/server.js --ignore client",
+        "start": "node server/index.js --ignore client",
         "develop": "concurrently \"cd server && npm run watch\" \"cd helping-hands && npm start\"",
         "install": "cd server && npm i && cd ../helping-hands && npm i",
         "seed": "cd server && npm run seed",
