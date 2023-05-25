@@ -49,24 +49,24 @@ const CartProduct = ({
           <span>{description}</span>
         </p>
         <Select multiple value={selectedOptions} onChange={handleOptionChange}>
-          <MenuItem value="tutor">Tutor</MenuItem>
-          <MenuItem value="Students in FC school">
-            Students in FC school
+          <MenuItem value="Pencils">Pencils</MenuItem>
+          <MenuItem value="Books">
+            Books
           </MenuItem>
-          <MenuItem value="Chauffer in FC School">
-            Chauffer in FC School
+          <MenuItem value="Paper">
+            Paper
           </MenuItem>
-          <MenuItem value="Students in Govt. school">
-            Students in Govt. school
+          <MenuItem value="Shoes">
+            Shoes
           </MenuItem>
-          <MenuItem value="Chauffer in Govt. School">
-            Chauffer in Govt. School
+          <MenuItem value="Backpacks">
+            Backpacks
           </MenuItem>
-          <MenuItem value="Students in LGS school">
-            Students in LGS school
+          <MenuItem value="Lunch Bags">
+            Lunch Bags
           </MenuItem>
-          <MenuItem value="Chauffer in LGS School">
-            Chauffer in LGS School
+          <MenuItem value="After School Care">
+            After School Care
           </MenuItem>
         </Select>
       </div>
