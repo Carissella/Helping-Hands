@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Routes } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './App.css';
 import client from './Apollo';
 import Navbar from './components/Navbar';
@@ -9,8 +9,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Schools from './pages/Schools.js';
-
-
 
 function App() {
   return (
