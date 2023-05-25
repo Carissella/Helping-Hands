@@ -12,7 +12,7 @@ const AllProduct = ({ productData, heading }) => {
   const loadingArrayFeature = new Array(3).fill(null);
 
   return (
-    <div className="my-5">
+    <div className="my-5" id="donate">
       <h2 className="font-bold text-2xl text-slate-800 mb-4">{heading}</h2>
       <div className="flex flex-wrap justify-center gap-4 my-4">
         {dataFilter[0]
