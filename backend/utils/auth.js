@@ -1,5 +1,5 @@
 // require('dotenv').config()
-const { signToken } = require('../utils/auth');
+const { signToken } = require('./auth');
 
 const jwt = require('jsonwebtoken');
 
