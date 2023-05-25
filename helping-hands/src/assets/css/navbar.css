@@ -1,25 +1,2 @@
-.navbar {
-    background-color: greenyellow;
-    padding: 10px;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .navbar li {
-    margin-right: 10px;
-  }
-  
-  .navbar a {
-    text-decoration: none;
-    color: #333;
-    padding: 5px 10px;
-  }
-  
-  .navbar a:hover {
-    color: #4caf50;
-  }
+
   
