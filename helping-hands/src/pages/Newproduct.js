@@ -24,7 +24,6 @@ const Newproduct = () => {
 
   const uploadImage = async (e) => {
     const data = await ImagetoBase64(e.target.files[0]);
-    // console.log(data)
 
     setData((preve) => {
       return {
@@ -71,7 +70,8 @@ const Newproduct = () => {
     <div className="p-4">
       <form
         className="m-auto w-full max-w-md  shadow flex flex-col p-3 bg-white"
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit}
+      >
         <TextField
           id="filled-hidden-label-small"
           label="Name"

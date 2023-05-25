@@ -143,7 +143,8 @@ function Signup() {
             />
             <span
               className="flex text-xl cursor-pointer"
-              onClick={handleShowPassword}>
+              onClick={handleShowPassword}
+            >
               {showPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
@@ -160,7 +161,8 @@ function Signup() {
             />
             <span
               className="flex text-xl cursor-pointer"
-              onClick={handleShowConfirmPassword}>
+              onClick={handleShowConfirmPassword}
+            >
               {showConfirmPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
