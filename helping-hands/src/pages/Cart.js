@@ -1,125 +1,135 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import CartProduct from "../components/cartProduct";
+import emptyCartImage from "../assest/empty.gif";
 import { toast } from "react-hot-toast";
-import { ImagetoBase64 } from "../utility/ImagetoBase64";
-import TextField from "@mui/material/TextField";
-import BackupIcon from "@mui/icons-material/Backup";
+import { loadStripe } from "@stripe/stripe-js";
+import { useNavigate } from "react-router-dom";
+import { Button, TextField, Typography } from "@mui/material";
 
-const Newproduct = () => {
-  const [data, setData] = useState({
-    name: "",
-    image: "",
-    description: "",
-  });
+const Cart = () => {
+  const [totalPrice, setTotalPrice] = useState();
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || []
+  );
+  const [cartData, setCartData] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  const navigate = useNavigate();
 
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-
-    setData((preve) => {
-      return {
-        ...preve,
-        [name]: value,
-      };
-    });
-  };
-
-  const uploadImage = async (e) => {
-    const data = await ImagetoBase64(e.target.files[0]);
-    // console.log(data)
-
-    setData((preve) => {
-      return {
-        ...preve,
-        image: data,
-      };
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(data);
-
-    const { name, image, description } = data;
-
-    if (name && image && description) {
-      const fetchData = await fetch(
-        `${process.env.REACT_APP_SERVER_DOMIN}/uploadProduct`,
+  const handlePayment = async () => {
+    if (user.token) {
+      const stripePromise = await loadStripe(
+        process.env.REACT_APP_STRIPE_PUBLIC_KEY
+      );
+      const stripe = await stripePromise;
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_DOMIN}/create-checkout-session`,
         {
           method: "POST",
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(cartData),
         }
       );
 
-      const fetchRes = await fetchData.json();
+      const data = await res.json();
+      console.log(data);
 
-      toast(fetchRes.message);
-
-      setData(() => {
-        return {
-          name: "",
-          image: "",
-          description: "",
-        };
-      });
+      toast("Redirect to payment Gateway...!");
+      stripe.redirectToCheckout({ sessionId: data });
     } else {
-      toast("Enter required Fields");
+      toast("You have not Login!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     }
   };
+  console.log(cartData);
   return (
-    <div className="p-4">
-      <form
-        className="m-auto w-full max-w-md  shadow flex flex-col p-3 bg-white"
-        onSubmit={handleSubmit}
-      >
-        <TextField
-          id="filled-hidden-label-small"
-          label="Name"
-          style={{ marginBottom: 16 }}
-          variant="outlined"
-          name="name"
-          onChange={handleOnChange}
-          value={data.name}
-        />
+    <>
+      <h2 className="p-2 md:p-4 text-lg md:text-2xl font-bold text-slate-600">
+        Your Cart Items
+      </h2>
+      <div className="p-2 md:p-4">
+        {cartData[0] ? (
+          <div className="my-4 flex flex-col md:flex-row gap-3">
+            {/* display cart items  */}
+            <div className="w-full max-w-3xl ">
+              {cartData.map((el) => {
+                return (
+                  <CartProduct
+                    key={el._id}
+                    id={el._id}
+                    name={el.name}
+                    image={el.image}
+                    description={el.description}
+                    setCartData={setCartData}
+                    cartData={cartData}
+                  />
+                );
+              })}
+            </div>
 
-        <label htmlFor="image" style={{ marginBottom: 16 }}>
-          Image
-          <div className="h-40 w-full bg-slate-200  rounded flex items-center justify-center cursor-pointer">
-            {data.image ? (
-              <img src={data.image} className="h-full" />
-            ) : (
-              <span className="text-5xl">
-                <BackupIcon />
-              </span>
-            )}
-
-            <input
-              type={"file"}
-              accept="image/*"
-              id="image"
-              onChange={uploadImage}
-              className="hidden"
-            />
+            {/* total cart item  */}
+            <div className="w-full max-w-md h-36  ml-auto bg-white p-2">
+              <Typography variant="h6" gutterBottom>
+                Summary
+              </Typography>
+              <div className="flex w-full py-2 text-lg border-b">
+                <p>Total Price</p>
+                <p className="ml-auto w-32 font-bold">
+                  ${" "}
+                  <TextField
+                    style={{ marginBottom: 16 }}
+                    id="outlined-basic"
+                    label="Price"
+                    variant="outlined"
+                    name="price"
+                    onChange={(e) => {
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify(
+                          cartData.map((item) => {
+                            return {
+                              ...item,
+                              price: parseInt(e.target.value) / cartData.length,
+                            };
+                          })
+                        )
+                      );
+                      setCartData(
+                        cartData.map((item) => {
+                          return {
+                            ...item,
+                            price: parseInt(e.target.value) / cartData.length,
+                          };
+                        })
+                      );
+                      setTotalPrice(e.target.value);
+                    }}
+                  />
+                </p>
+              </div>
+              <Button
+                variant="contained"
+                className="w-full text-lg font-bold py-2"
+                onClick={handlePayment}>
+                Payment
+              </Button>
+            </div>
           </div>
-        </label>
-        <TextField
-          style={{ marginBottom: 16 }}
-          id="outlined-multiline-static"
-          label="Description"
-          multiline
-          rows={4}
-          defaultValue={data.description}
-          name="description"
-          onChange={handleOnChange}
-        />
-
-        <button className="bg-blue-500 hover:bg-blue-600 text-white text-lg font-medium my-2 drop-shadow">
-          Save
-        </button>
-      </form>
-    </div>
+        ) : (
+          <>
+            <div className="flex w-full justify-center items-center flex-col">
+              <img src={emptyCartImage} className="w-full max-w-sm" />
+              <p className="text-slate-500 text-3xl font-bold">Empty</p>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
-export default Newproduct;
+export default Cart;

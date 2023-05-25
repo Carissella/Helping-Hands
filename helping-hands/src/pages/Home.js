@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import backgroundImg from "../assest/charity.png";
-import AllProduct from "../component/AllProduct";
+import AllProduct from "../components/Allproduct";
 import { Typography } from "@mui/material";
 
 const Home = () => {

@@ -1,4 +1,4 @@
-import Header from "./component/Header";
+import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 

@@ -8,12 +8,12 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./page/Home";
-import Login from "./page/login";
-import Newproduct from "./page/Newproduct";
-import Signup from "./page/Signup";
-import Cart from "./page/Cart";
-import Success from "./page/Success";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Newproduct from "./pages/Newproduct";
+import Signup from "./pages/Signup";
+import Cart from "./pages/Cart";
+import Success from "./pages/Success";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

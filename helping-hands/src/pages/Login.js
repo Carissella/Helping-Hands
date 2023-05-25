@@ -93,7 +93,8 @@ const Login = () => {
             />
             <span
               className="flex text-xl cursor-pointer"
-              onClick={handleShowPassword}>
+              onClick={handleShowPassword}
+            >
               {showPassword ? <BiShow /> : <BiHide />}
             </span>
           </div>
