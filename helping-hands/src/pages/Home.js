@@ -25,7 +25,8 @@ const Home = () => {
             gutterBottom
             variant="p"
             component="p"
-            color="text.secondary">
+            color="text.secondary"
+          >
             Our charity is dedicated to making a positive impact in our
             community by supporting education and empowering students. We
             believe that education is a fundamental right and a key driver for
@@ -34,9 +35,11 @@ const Home = () => {
             students in need, fostering an environment conducive to learning and
             development.
           </Typography>
-          <a href="#donate"><button className="font-bold bg-red-500 text-slate-200 px-4 py-2 rounded-md">
-            Donate Now
-          </button></a>
+          <a href="#donate">
+            <button className="font-bold bg-red-500 text-slate-200 px-4 py-2 rounded-md">
+              Donate Now
+            </button>
+          </a>
         </div>
 
         <div className="md:w-1/2 flex flex-wrap gap-5 p-4 justify-center">
