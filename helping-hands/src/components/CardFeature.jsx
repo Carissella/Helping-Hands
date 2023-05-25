@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-const cardFeature = ({ image, name, id, description }) => {
+const CardFeature = ({ image, name, id, description }) => {
   const navigate = useNavigate();
   const [cartData, setCartData] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
@@ -78,4 +78,4 @@ const cardFeature = ({ image, name, id, description }) => {
   );
 };
 
-export default cardFeature;
+export default CardFeature;
