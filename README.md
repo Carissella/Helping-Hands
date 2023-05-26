@@ -46,10 +46,10 @@ THEN I see the Home page links for the Donate button, Cart Button, and Donation 
 
 ## Credits<a name ="credits"></a>
 
-Abira with GitHub profile  ()
+Abirahman Shukri with GitHub profile  (https://github.com/Ashukri1)
 Carisse Barr with GitHub proflie Carissella (https://github.com/Carissella)
- with GitHub profile  ()
- with GitHub profile  ()
+Muntaas Hassan with GitHub profile  (https://github.com/Mhassan0630)
+Huda Yusuf with GitHub profile  (https://github.com/hyusuff)
 University of Minnesota Full Stack Developer Bootcamp Instructors and Teacher Assistants
 
 ## License<a name="license"></a>
