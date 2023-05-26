@@ -27,13 +27,13 @@ const Home = () => {
             component="p"
             color="text.secondary"
           >
-            Our charity is dedicated to making a positive impact in our
-            community by supporting education and empowering students. We
-            believe that education is a fundamental right and a key driver for
-            personal and societal growth.sonal and societal growth. Our primary
-            focus is on providing resources and opportunities to schools and
-            students in need, fostering an environment conducive to learning and
-            development.
+           The digital hub where giving meets needs. Here, you can effortlessly support a 
+           range of causes, from education to health, and many more. Yet, we're more than 
+           just a giving platform - we're a community that empowers you to share your own 
+           needs, connecting those who give with those who are in need. Our aim is simple: 
+           to make giving and receiving help seamless, transparent, and meaningful. Dive 
+           in today, and join a compassionate community that's making a real difference, 
+           one click at a time.
           </Typography>
           <a href="#donate">
             <button className="font-bold bg-red-500 text-slate-200 px-4 py-2 rounded-md">
